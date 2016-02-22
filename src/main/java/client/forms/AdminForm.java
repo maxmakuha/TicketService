@@ -31,6 +31,10 @@ public class AdminForm extends JFrame implements ActionListener {
 	JTextArea text4;
 	JTextArea text5;
 	JTable allBuses;
+	JTable allRoutes;
+	JTable allPassages;
+	JTable allPassangers;
+	JTable allOrganizations;
 
 	JButton addBus;
 	JButton removeBus;
@@ -67,28 +71,16 @@ public class AdminForm extends JFrame implements ActionListener {
 		panel1.add(newPanel, BorderLayout.PAGE_END);
 
 		panel2 = new JPanel(new BorderLayout());
-		text2 = new JTextArea(10, 20);
-		text2.setEditable(false);
-		JScrollPane textScroll2 = new JScrollPane(text2);
-		panel2.add(textScroll2, BorderLayout.CENTER);
+		allRoutes();
 
 		panel3 = new JPanel(new BorderLayout());
-		text3 = new JTextArea(10, 20);
-		text3.setEditable(false);
-		JScrollPane textScroll3 = new JScrollPane(text3);
-		panel3.add(textScroll3, BorderLayout.CENTER);
+		allPassages();
 
 		panel4 = new JPanel(new BorderLayout());
-		text4 = new JTextArea(10, 20);
-		text4.setEditable(false);
-		JScrollPane textScroll4 = new JScrollPane(text4);
-		panel4.add(textScroll4, BorderLayout.CENTER);
+		allPassangers();
 
 		panel5 = new JPanel(new BorderLayout());
-		text5 = new JTextArea(10, 20);
-		text5.setEditable(false);
-		JScrollPane textScroll5 = new JScrollPane(text5);
-		panel5.add(textScroll5, BorderLayout.CENTER);
+		allOrganizations();
 
 		addRoute = new JButton("Додати маршрут");
 		addRoute.addActionListener(this);
@@ -148,8 +140,72 @@ public class AdminForm extends JFrame implements ActionListener {
 		panel1.add(allBusesPane, BorderLayout.CENTER);
 	}
 	
+	private void allRoutes() {
+		allRoutes = new JTable();
+		allRoutes.setPreferredScrollableViewportSize(new Dimension(700,100));
+		allRoutes.setSize(800, 300);
+		
+		JScrollPane allRoutesPane = new JScrollPane(allRoutes);
+		allRoutesPane.setPreferredSize(new Dimension(700,100));
+		allRoutesPane.setSize(800, 300);
+
+		panel2.add(allRoutesPane, BorderLayout.CENTER);
+	}
+	
+	private void allPassages() {
+		allPassages = new JTable();
+		allPassages.setPreferredScrollableViewportSize(new Dimension(700,100));
+		allPassages.setSize(800, 300);
+		
+		JScrollPane allPassagesPane = new JScrollPane(allPassages);
+		allPassagesPane.setPreferredSize(new Dimension(700,100));
+		allPassagesPane.setSize(800, 300);
+
+		panel3.add(allPassagesPane, BorderLayout.CENTER);
+	}
+	
+	private void allPassangers() {
+		allPassangers = new JTable();
+		allPassangers.setPreferredScrollableViewportSize(new Dimension(700,100));
+		allPassangers.setSize(800, 300);
+		
+		JScrollPane allPassangersPane = new JScrollPane(allPassangers);
+		allPassangersPane.setPreferredSize(new Dimension(700,100));
+		allPassangersPane.setSize(800, 300);
+
+		panel4.add(allPassangersPane, BorderLayout.CENTER);
+	}
+	
+	private void allOrganizations() {
+		allOrganizations = new JTable();
+		allOrganizations.setPreferredScrollableViewportSize(new Dimension(700,100));
+		allOrganizations.setSize(800, 300);
+		
+		JScrollPane allOrganizationsPane = new JScrollPane(allOrganizations);
+		allOrganizationsPane.setPreferredSize(new Dimension(700,100));
+		allOrganizationsPane.setSize(800, 300);
+
+		panel5.add(allOrganizationsPane, BorderLayout.CENTER);
+	}
+	
 	public JTable getAllBusesTable(){
 		return this.allBuses;
+	}
+	
+	public JTable getAllRoutesTable(){
+		return this.allRoutes;
+	}
+	
+	public JTable getAllPassagesTable(){
+		return this.allPassages;
+	}
+	
+	public JTable getAllPassangersTable(){
+		return this.allPassangers;
+	}
+	
+	public JTable getAllOrganizationsTable(){
+		return this.allOrganizations;
 	}
 
 	@Override

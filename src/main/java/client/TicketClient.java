@@ -8,12 +8,16 @@ import java.rmi.RemoteException;
 import javax.naming.NamingException;
 import client.forms.AdminForm;
 import client.forms.BusTable;
+import client.forms.OrganizationTable;
+import client.forms.PassageTable;
+import client.forms.PassangerTable;
+import client.forms.RouteTable;
 import server.service.TicketService;
 
 public class TicketClient {
-	
+
 	private static AdminForm adminForm;
-	
+
 	public static TicketService tickservice;
 
 	public static final String SERVER_NAME = "Server";
@@ -24,8 +28,12 @@ public class TicketClient {
 		Registry registry = LocateRegistry.getRegistry("localhost", 8888);
 
 		tickservice = (TicketService) registry.lookup(SERVER_NAME);
-		
+
 		adminForm = new AdminForm();
 		adminForm.getAllBusesTable().setModel(new BusTable(tickservice.getAllBuses()));
+		adminForm.getAllRoutesTable().setModel(new RouteTable(tickservice.getAllRoutes()));
+		adminForm.getAllPassagesTable().setModel(new PassageTable(tickservice.getAllPassages()));
+		adminForm.getAllPassangersTable().setModel(new PassangerTable(tickservice.getAllPassangers()));
+		adminForm.getAllOrganizationsTable().setModel(new OrganizationTable(tickservice.getAllOrganizations()));
 	}
 }
