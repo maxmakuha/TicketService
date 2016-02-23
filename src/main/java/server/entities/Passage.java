@@ -1,19 +1,19 @@
 package server.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Passage implements Serializable {
 
 	private int id;
 	private int routeId;
-	private Date startTime;
-	private Date endTime;
+	private String startTime;
+	private String endTime;
 	private int freePlaces;
 	private int stopsAmount;
 
-	public Passage(int id, int routeId, Date startTime, Date endTime, int freePlaces, int stopsAmount) {
+	public Passage(int id, int routeId, String startTime, String endTime, int freePlaces, int stopsAmount) {
 		this.id = id;
 		this.routeId = routeId;
 		this.startTime = startTime;
@@ -38,19 +38,19 @@ public class Passage implements Serializable {
 		this.routeId = routeId;
 	}
 
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 

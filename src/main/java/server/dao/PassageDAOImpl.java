@@ -1,6 +1,5 @@
 package server.dao;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class PassageDAOImpl implements PassageDAO {
 	@Override
 	public List<Passage> getAllPassages() {
 		passages = new ArrayList<Passage>();
-		passages.add(new Passage(3, 3, new Date(1995,2,2), new Date(1995,2,2), 3, 3));
+		passages.add(new Passage(3, 3, "1995-2-2", "1995-2-2", 3, 3));
 		return passages;
 	}
 }

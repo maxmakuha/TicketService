@@ -2,20 +2,30 @@ package client.forms;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import client.TicketClient;
+import server.entities.Bus;
+import server.entities.Passage;
+import server.entities.Route;
 
 @SuppressWarnings("serial")
 public class AdminForm extends JFrame implements ActionListener {
@@ -50,10 +60,17 @@ public class AdminForm extends JFrame implements ActionListener {
 	public AdminForm() {
 		super("Administrator panel");
 		setBounds(0, 0, 1000, 600);
+
 		JTabbedPane tabby = new JTabbedPane();
 
 		panel1 = new JPanel(new BorderLayout());
-		allBuses();
+		try {
+			allBuses();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		addBus = new JButton("Додати автобус");
 		addBus.addActionListener(this);
@@ -72,16 +89,32 @@ public class AdminForm extends JFrame implements ActionListener {
 		panel1.add(newPanel, BorderLayout.PAGE_END);
 
 		panel2 = new JPanel(new BorderLayout());
-		allRoutes();
+		try {
+			allRoutes();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		panel3 = new JPanel(new BorderLayout());
-		allPassages();
+		try {
+			allPassages();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		panel4 = new JPanel(new BorderLayout());
-		allPassangers();
+		try {
+			allPassangers();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		panel5 = new JPanel(new BorderLayout());
-		allOrganizations();
+		try {
+			allOrganizations();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		addRoute = new JButton("Додати маршрут");
 		addRoute.addActionListener(this);
@@ -132,107 +165,242 @@ public class AdminForm extends JFrame implements ActionListener {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
-	
-	private void allBuses() {
-		allBuses = new JTable();
-		allBuses.setPreferredScrollableViewportSize(new Dimension(700,100));
-		allBuses.setSize(800, 300);
-		
-		JScrollPane allBusesPane = new JScrollPane(allBuses);
-		allBusesPane.setPreferredSize(new Dimension(700,100));
-		allBusesPane.setSize(800, 300);
 
+	private void allBuses() throws MalformedURLException, IOException {
+		final Image image = javax.imageio.ImageIO.read(new File("bus1.jpg"));
+		allBuses = new JTable();
+
+		allBuses.setOpaque(false);
+		allBuses.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			{
+				setOpaque(false);
+			}
+		});
+
+		allBuses.setPreferredScrollableViewportSize(new Dimension(700, 100));
+		allBuses.setSize(800, 300);
+
+		JScrollPane allBusesPane = new JScrollPane(new JScrollPane(allBuses) {
+			{
+				setOpaque(false);
+				getViewport().setOpaque(false);
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+				super.paintComponent(g);
+			}
+		});
+		allBusesPane.setPreferredSize(new Dimension(700, 100));
+		allBusesPane.setSize(800, 300);
 		panel1.add(allBusesPane, BorderLayout.CENTER);
 	}
-	
-	private void allRoutes() {
+
+	private void allRoutes() throws IOException {
+		final Image image = javax.imageio.ImageIO.read(new File("bus2.jpg"));
 		allRoutes = new JTable();
-		allRoutes.setPreferredScrollableViewportSize(new Dimension(700,100));
+
+		allRoutes.setOpaque(false);
+		allRoutes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			{
+				setOpaque(false);
+			}
+		});
+
+		allRoutes.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allRoutes.setSize(800, 300);
-		
-		JScrollPane allRoutesPane = new JScrollPane(allRoutes);
-		allRoutesPane.setPreferredSize(new Dimension(700,100));
+
+		JScrollPane allRoutesPane = new JScrollPane(new JScrollPane(allRoutes) {
+			{
+				setOpaque(false);
+				getViewport().setOpaque(false);
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+				super.paintComponent(g);
+			}
+		});
+		allRoutesPane.setPreferredSize(new Dimension(700, 100));
 		allRoutesPane.setSize(800, 300);
 
 		panel2.add(allRoutesPane, BorderLayout.CENTER);
 	}
-	
-	private void allPassages() {
+
+	private void allPassages() throws IOException {
+		final Image image = javax.imageio.ImageIO.read(new File("bus3.png"));
 		allPassages = new JTable();
-		allPassages.setPreferredScrollableViewportSize(new Dimension(700,100));
+
+		allPassages.setOpaque(false);
+		allPassages.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			{
+				setOpaque(false);
+			}
+		});
+
+		allPassages.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allPassages.setSize(800, 300);
-		
-		JScrollPane allPassagesPane = new JScrollPane(allPassages);
-		allPassagesPane.setPreferredSize(new Dimension(700,100));
+
+		JScrollPane allPassagesPane = new JScrollPane(new JScrollPane(allPassages) {
+			{
+				setOpaque(false);
+				getViewport().setOpaque(false);
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+				super.paintComponent(g);
+			}
+		});
+		allPassagesPane.setPreferredSize(new Dimension(700, 100));
 		allPassagesPane.setSize(800, 300);
 
 		panel3.add(allPassagesPane, BorderLayout.CENTER);
 	}
-	
-	private void allPassangers() {
+
+	private void allPassangers() throws IOException {
+		final Image image = javax.imageio.ImageIO.read(new File("bus4.jpg"));
 		allPassangers = new JTable();
-		allPassangers.setPreferredScrollableViewportSize(new Dimension(700,100));
+
+		allPassangers.setOpaque(false);
+		allPassangers.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			{
+				setOpaque(false);
+			}
+		});
+
+		allPassangers.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allPassangers.setSize(800, 300);
-		
-		JScrollPane allPassangersPane = new JScrollPane(allPassangers);
-		allPassangersPane.setPreferredSize(new Dimension(700,100));
+
+		JScrollPane allPassangersPane = new JScrollPane(new JScrollPane(allPassangers) {
+			{
+				setOpaque(false);
+				getViewport().setOpaque(false);
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+				super.paintComponent(g);
+			}
+		});
+		allPassangersPane.setPreferredSize(new Dimension(700, 100));
 		allPassangersPane.setSize(800, 300);
 
 		panel4.add(allPassangersPane, BorderLayout.CENTER);
 	}
-	
-	private void allOrganizations() {
+
+	private void allOrganizations() throws IOException {
+		final Image image = javax.imageio.ImageIO.read(new File("bus5.jpg"));
 		allOrganizations = new JTable();
-		allOrganizations.setPreferredScrollableViewportSize(new Dimension(700,100));
+
+		allRoutes.setOpaque(false);
+		allRoutes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			{
+				setOpaque(false);
+			}
+		});
+
+		allOrganizations.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allOrganizations.setSize(800, 300);
-		
-		JScrollPane allOrganizationsPane = new JScrollPane(allOrganizations);
-		allOrganizationsPane.setPreferredSize(new Dimension(700,100));
+
+		JScrollPane allOrganizationsPane = new JScrollPane(new JScrollPane(allOrganizations) {
+			{
+				setOpaque(false);
+				getViewport().setOpaque(false);
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+				super.paintComponent(g);
+			}
+		});
+		allOrganizationsPane.setPreferredSize(new Dimension(700, 100));
 		allOrganizationsPane.setSize(800, 300);
 
 		panel5.add(allOrganizationsPane, BorderLayout.CENTER);
 	}
-	
-	public JTable getAllBusesTable(){
+
+	public JTable getAllBusesTable() {
 		return this.allBuses;
 	}
-	
-	public JTable getAllRoutesTable(){
+
+	public JTable getAllRoutesTable() {
 		return this.allRoutes;
 	}
-	
-	public JTable getAllPassagesTable(){
+
+	public JTable getAllPassagesTable() {
 		return this.allPassages;
 	}
-	
-	public JTable getAllPassangersTable(){
+
+	public JTable getAllPassangersTable() {
 		return this.allPassangers;
 	}
-	
-	public JTable getAllOrganizationsTable(){
+
+	public JTable getAllOrganizationsTable() {
 		return this.allOrganizations;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addBus) {
-			try {
-				System.out.println(TicketClient.tickservice.getAllOrganizations());
-			} catch (RemoteException e1) {
-				e1.printStackTrace();
+			new AddBusForm();
+		} else if (e.getSource() == addRoute){
+			new AddRouteForm();
+		} else if (e.getSource() == addPassage){
+			new AddPassageForm();
+		} else if (e.getSource() == removeBus){
+			new RemoveBusForm();
+		} else if (e.getSource() == removeRoute){
+			new RemoveRouteForm();
+		} else if (e.getSource() == removePassage){
+			new RemovePassageForm();
+		} else if (e.getSource() == changeBus){
+			Bus bus;
+			int[] rows = allBuses.getSelectedRows();
+			if (rows.length > 0){
+				bus = new Bus((Integer)allBuses.getValueAt(rows[0], 0),(String)allBuses.getValueAt(rows[0], 1),(String)allBuses.getValueAt(rows[0], 2),(String)allBuses.getValueAt(rows[0], 3),(Integer)allBuses.getValueAt(rows[0], 4));
+				new ChangeBusForm(bus);
+			}else{
+				JOptionPane.showMessageDialog(null, "Потрібно вибрати автобус!", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (e.getSource() == changeRoute){
+			Route route;
+			int[] rows = allRoutes.getSelectedRows();
+			if (rows.length > 0){
+				route = new Route((Integer)allRoutes.getValueAt(rows[0], 0),(Integer)allRoutes.getValueAt(rows[0], 1),(String)allRoutes.getValueAt(rows[0], 2),(String)allRoutes.getValueAt(rows[0], 3),(String)allRoutes.getValueAt(rows[0], 4));
+				new ChangeRouteForm(route);
+			}else{
+				JOptionPane.showMessageDialog(null, "Потрібно вибрати маршрут!", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (e.getSource() == changePassage){
+			Passage passage;
+			int[] rows = allPassages.getSelectedRows();
+			if (rows.length > 0){
+				passage = new Passage((Integer)allPassages.getValueAt(rows[0], 0),(Integer)allPassages.getValueAt(rows[0], 1),(String)allPassages.getValueAt(rows[0], 2),(String)allRoutes.getValueAt(rows[0], 3),(Integer)allPassages.getValueAt(rows[0], 4), (Integer)allPassages.getValueAt(rows[0], 5));
+				new ChangePassageForm(passage);
+			}else{
+				JOptionPane.showMessageDialog(null, "Потрібно вибрати рейс!", "", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (e.getSource() == showPlacesButton) {
-//			this.allRoutes.getSelectedRow();
-			// get parameters from table
-			String routeName = "Kiev - Donetsk";
-			int numberOfSeats = 14;
+			Route route;
+			int[] rows = allPassages.getSelectedRows();
+			if (rows.length > 0){
+				route = new Route((Integer)allRoutes.getValueAt(rows[0], 0),(Integer)allRoutes.getValueAt(rows[0], 1),(String)allRoutes.getValueAt(rows[0], 2),(String)allRoutes.getValueAt(rows[0], 3),(String)allRoutes.getValueAt(rows[0], 4));
 
-			//if row with route is selected :
-			if(!routeName.equals("") && numberOfSeats > 0) {
+				String routeName = route.getDeparture() + " - " + route.getDestination();
+				//TODO
+				int numberOfSeats = 14;
 				ShowPlacesForm form = new ShowPlacesForm(routeName, numberOfSeats);
 				form.setVisible(true);
-			}
 
+			}else{
+				JOptionPane.showMessageDialog(null, "Потрібно вибрати рейс!", "", JOptionPane.INFORMATION_MESSAGE);
+			}
 
 		}
 	}
