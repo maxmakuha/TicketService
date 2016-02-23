@@ -72,7 +72,13 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 			JButton bb = new JButton();
 			bb.setSize(30, 30);
 			bb.setText("" + (i + 1));
-
+			bb.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AddTicketForm form = new AddTicketForm();
+					form.setVisible(true);
+				}
+			});
 			// will be check if place has been already bought
 			if (i == 3 || i == 7 || i == 9) {
 				bb.setEnabled(false);
