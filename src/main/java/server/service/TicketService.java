@@ -11,6 +11,8 @@ import server.entities.Route;
 
 public interface TicketService extends Remote {
 	
+	public void addBus(Bus bus) throws RemoteException;
+	
 	public List<Bus> getAllBuses() throws RemoteException;
 	
 	public List<Route> getAllRoutes() throws RemoteException;

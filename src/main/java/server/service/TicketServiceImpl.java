@@ -61,4 +61,9 @@ public class TicketServiceImpl extends UnicastRemoteObject implements TicketServ
 	public List<Passanger> getAllPassangers() throws RemoteException {
 		return passangerDAO.getAllPassangers();
 	}
+
+	@Override
+	public void addBus(Bus bus) throws RemoteException {
+		busDAO.addBus(bus);
+	}
 }

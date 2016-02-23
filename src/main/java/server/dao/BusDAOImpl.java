@@ -39,4 +39,25 @@ public class BusDAOImpl implements BusDAO {
 		}
 		return buses;
 	}
+
+	@Override
+	public void addBus(Bus bus) {
+		try (Connection conn = DriverManager.getConnection(MYSQL_URL)) {
+			PreparedStatement statement = null;
+			try {
+				statement = conn
+						.prepareStatement("INSERT INTO  ticket_service.bus (id, mark, owner, class, places_amount)" + " VALUES (?, ?, ?, ?, ?)");
+				statement.setInt(1, bus.getId());
+				statement.setString(2, bus.getMark());
+				statement.setString(3, bus.getOwner());
+				statement.setString(4, bus.getClas());
+				statement.setInt(5, bus.getPlacesAmount());
+				statement.executeUpdate();
+			} catch (SQLException se) {
+				System.out.println("SQL Error: " + se);
+			}
+		} catch (SQLException se) {
+			System.out.println("Connection failed: " + se);
+		}
+	}
 }
