@@ -108,13 +108,13 @@ public class AdminForm extends JFrame implements ActionListener {
 		newPanel2.add(addRoute);
 		newPanel2.add(removeRoute);
 		newPanel2.add(changeRoute);
-		newPanel2.add(showPlacesButton);
 		panel2.add(newPanel2, BorderLayout.PAGE_END);
 
 		JPanel newPanel3 = new JPanel();
 		newPanel3.add(addPassage);
 		newPanel3.add(removePassage);
 		newPanel3.add(changePassage);
+		newPanel3.add(showPlacesButton);
 		panel3.add(newPanel3, BorderLayout.PAGE_END);
 
 		JPanel newPanel4 = new JPanel();
@@ -222,7 +222,7 @@ public class AdminForm extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 		} else if (e.getSource() == showPlacesButton) {
-
+//			this.allRoutes.getSelectedRow();
 			// get parameters from table
 			String routeName = "Kiev - Donetsk";
 			int numberOfSeats = 14;
