@@ -45,6 +45,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	JButton addPassage;
 	JButton removePassage;
 	JButton changePassage;
+	JButton showPlacesButton;
 
 	public AdminForm() {
 		super("Administrator panel");
@@ -100,10 +101,14 @@ public class AdminForm extends JFrame implements ActionListener {
 		changePassage = new JButton("Редагувати інформацію про рейс");
 		changePassage.addActionListener(this);
 
+		showPlacesButton = new JButton("Показати місця");
+		showPlacesButton.addActionListener(this);
+
 		JPanel newPanel2 = new JPanel();
 		newPanel2.add(addRoute);
 		newPanel2.add(removeRoute);
 		newPanel2.add(changeRoute);
+		newPanel2.add(showPlacesButton);
 		panel2.add(newPanel2, BorderLayout.PAGE_END);
 
 		JPanel newPanel3 = new JPanel();
@@ -216,6 +221,19 @@ public class AdminForm extends JFrame implements ActionListener {
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
+		} else if (e.getSource() == showPlacesButton) {
+
+			// get parameters from table
+			String routeName = "Kiev - Donetsk";
+			int numberOfSeats = 14;
+
+			//if row with route is selected :
+			if(!routeName.equals("") && numberOfSeats > 0) {
+				ShowPlacesForm form = new ShowPlacesForm(routeName, numberOfSeats);
+				form.setVisible(true);
+			}
+
+
 		}
 	}
 }

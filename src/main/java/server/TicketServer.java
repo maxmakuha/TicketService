@@ -1,12 +1,12 @@
 package server;
 
+import server.service.TicketService;
+import server.service.TicketServiceImpl;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-
-import server.service.TicketService;
-import server.service.TicketServiceImpl;
 
 public class TicketServer {
 
