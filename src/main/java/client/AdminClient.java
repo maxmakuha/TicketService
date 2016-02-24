@@ -12,7 +12,7 @@ import client.forms.PassangerTable;
 import client.forms.RouteTable;
 import server.service.TicketService;
 
-public class TicketClient {
+public class AdminClient {
 
 	public static AdminForm adminForm;
 

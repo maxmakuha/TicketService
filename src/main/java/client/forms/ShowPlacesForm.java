@@ -2,6 +2,7 @@ package client.forms;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by vlad on 2/23/16.
  */
+@SuppressWarnings("serial")
 public class ShowPlacesForm extends JFrame implements ActionListener {
 
 	private JPanel mainPanel;

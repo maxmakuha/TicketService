@@ -4,13 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.rmi.RemoteException;
-
+import java.net.URL;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,7 +21,6 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import client.TicketClient;
 import server.entities.Bus;
 import server.entities.Passage;
 import server.entities.Route;
@@ -167,7 +165,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	}
 
 	private void allBuses() throws MalformedURLException, IOException {
-		final Image image = javax.imageio.ImageIO.read(new File("bus1.jpg"));
+		final Image image = getImage("images/bus1.jpg");
 		allBuses = new JTable();
 
 		allBuses.setOpaque(false);
@@ -198,7 +196,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	}
 
 	private void allRoutes() throws IOException {
-		final Image image = javax.imageio.ImageIO.read(new File("bus2.jpg"));
+		final Image image = getImage("images/bus2.jpg");
 		allRoutes = new JTable();
 
 		allRoutes.setOpaque(false);
@@ -230,7 +228,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	}
 
 	private void allPassages() throws IOException {
-		final Image image = javax.imageio.ImageIO.read(new File("bus3.png"));
+		final Image image = getImage("images/bus3.png");
 		allPassages = new JTable();
 
 		allPassages.setOpaque(false);
@@ -262,7 +260,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	}
 
 	private void allPassangers() throws IOException {
-		final Image image = javax.imageio.ImageIO.read(new File("bus4.jpg"));
+		final Image image = getImage("images/bus4.jpg");
 		allPassangers = new JTable();
 
 		allPassangers.setOpaque(false);
@@ -294,7 +292,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	}
 
 	private void allOrganizations() throws IOException {
-		final Image image = javax.imageio.ImageIO.read(new File("bus5.jpg"));
+		final Image image = getImage("images/bus5.jpg");
 		allOrganizations = new JTable();
 
 		allRoutes.setOpaque(false);
@@ -343,6 +341,11 @@ public class AdminForm extends JFrame implements ActionListener {
 
 	public JTable getAllOrganizationsTable() {
 		return this.allOrganizations;
+	}
+	
+	public static Image getImage(final String pathAndFileName) {
+	    final URL url = Thread.currentThread().getContextClassLoader().getResource(pathAndFileName);
+	    return Toolkit.getDefaultToolkit().getImage(url);
 	}
 
 	@Override

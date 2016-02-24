@@ -14,8 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import server.entities.Bus;
-import client.TicketClient;
+import client.AdminClient;
 
+@SuppressWarnings("serial")
 public class AddBusForm extends JFrame {
 	
 	Bus bus;
@@ -79,8 +80,8 @@ public class AddBusForm extends JFrame {
 					busPlacesAmount = Integer.parseInt(placesAmount.getText());
 					bus = new Bus(busId, busMark, busOwner, busClas, busPlacesAmount);
 					try {
-						TicketClient.tickservice.addBus(bus);
-						TicketClient.adminForm.getAllBusesTable().setModel(new BusTable(TicketClient.tickservice.getAllBuses()));
+						AdminClient.tickservice.addBus(bus);
+						AdminClient.adminForm.getAllBusesTable().setModel(new BusTable(AdminClient.tickservice.getAllBuses()));
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}

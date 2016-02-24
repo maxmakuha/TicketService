@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class RemovePassageForm extends JFrame {
+public class RemovePassangerForm extends JFrame {
 
     JPanel panel;
     JPanel buttonPanel;
@@ -20,19 +20,19 @@ public class RemovePassageForm extends JFrame {
     JButton ok;
     JButton cancel;
     
-    public RemovePassageForm() {
+    public RemovePassangerForm() {
     	
         this.setSize(200,200);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
-        setTitle("Видалити рейс");
+        setTitle("Видалити клієнта");
 
         panel = new JPanel();
         panel.setLayout(new FlowLayout());
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("Видалити рейс?"));
+        panel.add(new JLabel("Видалити клієнта?"));
         
         ok = new JButton("Так");
         ok.addActionListener(new ActionListener() {

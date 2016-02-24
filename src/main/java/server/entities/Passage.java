@@ -1,7 +1,6 @@
 package server.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Passage implements Serializable {

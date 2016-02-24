@@ -10,32 +10,42 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import server.entities.Passanger;
 
 @SuppressWarnings("serial")
-public class RemovePassageForm extends JFrame {
-
+public class AddOrganizationForm extends JFrame {
+	
+	Passanger passanger;
     JPanel panel;
     JPanel buttonPanel;
+    JTextField id;
+    JTextField name;
+    JButton addOrganization;
     
-    JButton ok;
-    JButton cancel;
-    
-    public RemovePassageForm() {
+    public AddOrganizationForm() {
     	
-        this.setSize(200,200);
+        this.setSize(700,350);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
-        setTitle("Видалити рейс");
+        setTitle("Додати організацію");
 
         panel = new JPanel();
-        panel.setLayout(new FlowLayout());
+        panel.setLayout(new GridLayout(5, 1));
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("Видалити рейс?"));
+        panel.add(new JLabel("Номер: "));
+        id = new JTextField(10);
+        panel.add(id);
         
-        ok = new JButton("Так");
-        ok.addActionListener(new ActionListener() {
+        panel.add(new JLabel("Назва: "));
+        name = new JTextField(10);
+        panel.add(name);
+        
+        addOrganization = new JButton("Додати");
+        addOrganization.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -43,18 +53,7 @@ public class RemovePassageForm extends JFrame {
 				}
 			});
         
-        buttonPanel.add(ok, BorderLayout.PAGE_END);
-        
-        cancel = new JButton("Ні");
-        cancel.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					removeNotify();
-				}
-			});
-        
-        buttonPanel.add(cancel, BorderLayout.PAGE_END);
+        buttonPanel.add(addOrganization, BorderLayout.PAGE_END);
         
         this.add(panel);
         this.add(buttonPanel);

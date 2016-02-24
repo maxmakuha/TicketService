@@ -1,15 +1,14 @@
 package client.forms;
 
-import client.TicketClient;
-import server.entities.Bus;
 import server.entities.Ticket;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
+@SuppressWarnings("serial")
 public class AddTicketForm extends JFrame {
 
 	Ticket ticket;
