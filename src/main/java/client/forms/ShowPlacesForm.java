@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 /**
  * Created by vlad on 2/23/16.
@@ -70,22 +71,36 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 		this.busPanel.setBackground(Color.LIGHT_GRAY);
 		this.busPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		for (int i = 0; i < this.numberOfSeats; i++) {
+		// Инициализируем генератор
+		Random rnd = new Random(System.currentTimeMillis());
+		// Получаем случайное число в диапазоне от min до max (включительно)
+		int first = 1 + rnd.nextInt(20);
+		int second = 1 + rnd.nextInt(20);
+		int third = 1 + rnd.nextInt(20);
+		int fourth = 1 + rnd.nextInt(20);
+		int fifth = 1 + rnd.nextInt(20);
+
+		for (int i = 0; i < 20; i++) {
 			JButton bb = new JButton();
 			bb.setSize(30, 30);
 			bb.setText("" + (i + 1));
-			bb.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					AddTicketForm form = new AddTicketForm();
-					form.setVisible(true);
-				}
-			});
-			// will be check if place has been already bought
-			if (i == 3 || i == 7 || i == 9) {
-				bb.setEnabled(false);
+			if (i == first || i == second || i == third || i == fourth || i == fifth) {
+				bb.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						PassangerInformationForm form = new PassangerInformationForm();
+						form.setVisible(true);
+					}
+				});
 				bb.setBackground(Color.red);
 			} else {
+				bb.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						AddTicketForm form = new AddTicketForm();
+						form.setVisible(true);
+					}
+				});
 				bb.setBackground(Color.green);
 			}
 

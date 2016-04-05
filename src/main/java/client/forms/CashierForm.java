@@ -334,7 +334,7 @@ public class CashierForm extends JFrame implements ActionListener {
 				String routeName = route.getDeparture() + " - "
 						+ route.getDestination();
 				// TODO
-				int numberOfSeats = 14;
+				int numberOfSeats = 20;
 				ShowPlacesForm form = new ShowPlacesForm(routeName,
 						numberOfSeats);
 				form.setVisible(true);

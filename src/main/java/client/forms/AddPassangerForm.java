@@ -55,11 +55,16 @@ public class AddPassangerForm extends JFrame {
         panel.add(organizationId);
         
         addPassanger = new JButton("Додати");
+
         addPassanger.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					removeNotify();
+
+					//removeNotify();
+                    setVisible(false); //you can't see me!
+                    dispose(); //Destroy the JFrame object
+
 				}
 			});
         
