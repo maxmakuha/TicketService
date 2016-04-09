@@ -14,17 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import server.entities.Route;
-
 @SuppressWarnings("serial")
-public class AddRouteForm extends JFrame {
+public class ClassPriceForm extends JFrame {
 	
-	Route route;
     JPanel panel;
     JPanel buttonPanel;
     JTextField id;
     JTextField busId;
-    JTextField lenght;
+    JTextField length;
     JTextField departure;
     JTextField destination;
     JButton addRoute;
@@ -35,7 +32,7 @@ public class AddRouteForm extends JFrame {
     String routeDeparture;
     String routeDestination;
     
-    public AddRouteForm() {
+    public ClassPriceForm() {
     	
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int sizeWidth = 800;
@@ -46,34 +43,36 @@ public class AddRouteForm extends JFrame {
 		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
-        setTitle("Додати маршрут");
+        setTitle("Класи автобусів");
 
         panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel(" Номер: "));
+        panel.add(new JLabel(" Ціна проїзду (грн) відстані 1 км:"));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel("  Клас А: "));
         id = new JTextField(10);
+        id.setText("100");
         panel.add(id);
         
-        panel.add(new JLabel(" Номер автобуса: "));
+        panel.add(new JLabel("  Клас B: "));
         busId = new JTextField(10);
+        busId.setText("80");
         panel.add(busId);
         
-        panel.add(new JLabel(" Довжина: "));
-        lenght = new JTextField(10);
-        panel.add(lenght);
+        panel.add(new JLabel("  Клас С: "));
+        length = new JTextField(10);
+        length.setText("60");
+        panel.add(length);
         
-        panel.add(new JLabel(" Пункт відправлення: "));
+        panel.add(new JLabel("  Клас D: "));
         departure = new JTextField(10);
+        departure.setText("40");
         panel.add(departure);
         
-        panel.add(new JLabel(" Пункт призначення: "));
-        destination = new JTextField(10);
-        panel.add(destination);
-        
-        addRoute = new JButton(" Додати");
+        addRoute = new JButton("Редагувати");
         addRoute.addActionListener(new ActionListener() {
 
 				@Override
@@ -91,12 +90,4 @@ public class AddRouteForm extends JFrame {
         this.setVisible(true);
 
     }
-
-	public Route getBus() {
-		return route;
-	}
-
-	public void setRoute(Route route) {
-		this.route = route;
-	}
 }

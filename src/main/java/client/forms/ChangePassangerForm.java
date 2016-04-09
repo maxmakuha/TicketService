@@ -1,8 +1,10 @@
 package client.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,7 +30,13 @@ public class ChangePassangerForm extends JFrame {
 
 	public ChangePassangerForm(Passanger passanger) {
 
-		this.setSize(700, 350);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 800;
+		int sizeHeight = 400;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
 		this.setLayout(new GridLayout(2, 2, 2, 2));
 
 		setTitle("Редагувати інформацію про клієнта");
@@ -38,22 +46,22 @@ public class ChangePassangerForm extends JFrame {
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 
-		panel.add(new JLabel("Номер: "));
+		panel.add(new JLabel(" Номер: "));
 		id = new JTextField(10);
 		id.setText("" + passanger.getId());
 		panel.add(id);
 
-		panel.add(new JLabel("Прізвище та ім'я: "));
+		panel.add(new JLabel(" Прізвище та ім'я: "));
 		pib = new JTextField(10);
 		pib.setText(passanger.getPib());
 		panel.add(pib);
 
-		panel.add(new JLabel("Код паспорту: "));
+		panel.add(new JLabel(" Код паспорту: "));
 		passport = new JTextField(10);
 		passport.setText(passanger.getPassport());
 		panel.add(passport);
 
-		panel.add(new JLabel("Номер організації: "));
+		panel.add(new JLabel(" Номер організації: "));
 		organizationId = new JTextField(10);
 		organizationId.setText("" + passanger.getOrganizationId());
 		panel.add(organizationId);

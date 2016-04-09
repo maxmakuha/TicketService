@@ -1,8 +1,10 @@
 package client.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -29,7 +31,13 @@ public class ChangePassageForm extends JFrame {
     
     public ChangePassageForm(Passage passage) {
     	
-        this.setSize(700,350);
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 800;
+		int sizeHeight = 400;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
         setTitle("Редагувати інформацію про рейс");
@@ -39,27 +47,27 @@ public class ChangePassageForm extends JFrame {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("Номер: "));
+        panel.add(new JLabel(" Номер: "));
         id = new JTextField(10);
         id.setText(""+passage.getId());
         panel.add(id);
         
-        panel.add(new JLabel("Номер рейсу: "));
+        panel.add(new JLabel(" Номер рейсу: "));
         routeId = new JTextField(10);
         routeId.setText(""+passage.getRouteId());
         panel.add(routeId);
         
-        panel.add(new JLabel("Час відправлення: "));
+        panel.add(new JLabel(" Час відправлення: "));
         startTime = new JTextField(10);
         startTime.setText(passage.getStartTime());
         panel.add(startTime);
         
-        panel.add(new JLabel("Час прибуття: "));
+        panel.add(new JLabel(" Час прибуття: "));
         endTime = new JTextField(10);
         endTime.setText(passage.getEndTime());
         panel.add(endTime);
         
-        panel.add(new JLabel("Кількість вільних місць: "));
+        panel.add(new JLabel(" Кількість вільних місць: "));
         freePlaces = new JTextField(10);
         freePlaces.setText(""+passage.getFreePlaces());
         panel.add(freePlaces);

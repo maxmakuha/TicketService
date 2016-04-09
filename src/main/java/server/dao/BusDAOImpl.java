@@ -45,8 +45,8 @@ public class BusDAOImpl implements BusDAO {
 		try (Connection conn = DriverManager.getConnection(MYSQL_URL)) {
 			PreparedStatement statement = null;
 			try {
-				statement = conn
-						.prepareStatement("INSERT INTO  ticket_service.bus (id, mark, owner, class, places_amount)" + " VALUES (?, ?, ?, ?, ?)");
+				statement = conn.prepareStatement("INSERT INTO  ticket_service.bus (id, mark, owner, class, places_amount)"
+						+ " VALUES (?, ?, ?, ?, ?)");
 				statement.setInt(1, bus.getId());
 				statement.setString(2, bus.getMark());
 				statement.setString(3, bus.getOwner());

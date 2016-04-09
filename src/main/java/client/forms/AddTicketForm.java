@@ -26,7 +26,13 @@ public class AddTicketForm extends JFrame {
     public AddTicketForm() {
     	//TODO
 
-        this.setSize(500,350);
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 800;
+		int sizeHeight = 400;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2));
 
         setTitle("Бронювати");
@@ -37,11 +43,11 @@ public class AddTicketForm extends JFrame {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("ПІБ: "));
+        panel.add(new JLabel(" ПІБ: "));
         pib = new JTextField(5);
         panel.add(pib);
         
-        panel.add(new JLabel("Паспорт: "));
+        panel.add(new JLabel(" Паспорт: "));
         passport = new JTextField(5);
         panel.add(passport);
 

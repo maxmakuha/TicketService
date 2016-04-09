@@ -1,8 +1,10 @@
 package client.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,7 +29,13 @@ public class ChangeOrganizationForm extends JFrame {
     
     public ChangeOrganizationForm(Organization organization) {
     	
-        this.setSize(700,350);
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 800;
+		int sizeHeight = 400;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
         setTitle("Редагувати інформацію про організацію");
@@ -37,12 +45,12 @@ public class ChangeOrganizationForm extends JFrame {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("Номер: "));
+        panel.add(new JLabel(" Номер: "));
         id = new JTextField(10);
         id.setText(""+organization.getId());
         panel.add(id);
         
-        panel.add(new JLabel("Назва: "));
+        panel.add(new JLabel(" Назва: "));
         name = new JTextField(10);
         name.setText(organization.getName());
         panel.add(name);

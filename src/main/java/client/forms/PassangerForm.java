@@ -9,17 +9,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+import server.entities.Passage;
 import server.entities.Route;
 
 @SuppressWarnings("serial")
@@ -39,8 +49,14 @@ public class PassangerForm extends JFrame implements ActionListener {
 	JTable allOrganizations;
 
 	JButton showPlacesButton;
+	
+	private JTextField jtfFilterRoutes = new JTextField();
+	private TableRowSorter<TableModel> rowSorterRoutes;
+	
+	private JTextField jtfFilterPassages = new JTextField();
+	private TableRowSorter<TableModel> rowSorterPassages;
 
-	public PassangerForm() {
+	public PassangerForm(List<Route> routes, List<Passage> passages) {
 		super("Passanger panel");
 		setBounds(0, 0, 1000, 600);
 
@@ -52,6 +68,41 @@ public class PassangerForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		allRoutes.setModel(new RouteTable(routes));
+		rowSorterRoutes = new TableRowSorter<>(allRoutes.getModel());
+		allRoutes.setRowSorter(rowSorterRoutes);
+
+		jtfFilterRoutes.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterRoutes.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterRoutes.setRowFilter(null);
+				} else {
+					rowSorterRoutes.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterRoutes.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterRoutes.setRowFilter(null);
+				} else {
+					rowSorterRoutes.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		panel3 = new JPanel(new BorderLayout());
 		try {
@@ -59,16 +110,61 @@ public class PassangerForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		allPassages.setModel(new PassageTable(passages));
+		rowSorterPassages = new TableRowSorter<>(allPassages.getModel());
+		allPassages.setRowSorter(rowSorterPassages);
+
+		jtfFilterPassages.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterPassages.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterPassages.setRowFilter(null);
+				} else {
+					rowSorterPassages.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterPassages.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterPassages.setRowFilter(null);
+				} else {
+					rowSorterPassages.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		showPlacesButton = new JButton("Показати місця");
 		showPlacesButton.addActionListener(this);
 
-		JPanel newPanel2 = new JPanel();
+		JPanel newPanel2 = new JPanel(new BorderLayout());
 		panel2.add(newPanel2, BorderLayout.PAGE_END);
+		
+		JPanel SearchPanel2 = new JPanel(new BorderLayout()); 
+		SearchPanel2.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel2.add(jtfFilterRoutes, BorderLayout.CENTER); 
+		newPanel2.add(SearchPanel2, BorderLayout.AFTER_LAST_LINE);
 
-		JPanel newPanel3 = new JPanel();
-		newPanel3.add(showPlacesButton);
+		JPanel newPanel3 = new JPanel(new BorderLayout());
+		newPanel3.add(showPlacesButton, BorderLayout.CENTER);
 		panel3.add(newPanel3, BorderLayout.PAGE_END);
+		
+		JPanel SearchPanel3 = new JPanel(new BorderLayout()); 
+		SearchPanel3.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel3.add(jtfFilterPassages, BorderLayout.CENTER); 
+		newPanel3.add(SearchPanel3, BorderLayout.AFTER_LAST_LINE);
 
 		tabby.addTab("Маршрути", panel2);
 		tabby.addTab("Рейси", panel3);
@@ -80,14 +176,6 @@ public class PassangerForm extends JFrame implements ActionListener {
 	private void allRoutes() throws IOException {
 		final Image image = getImage("images/bus2.jpg");
 		allRoutes = new JTable();
-
-		allRoutes.setOpaque(false);
-		allRoutes.setDefaultRenderer(Object.class,
-				new DefaultTableCellRenderer() {
-					{
-						setOpaque(false);
-					}
-				});
 
 		allRoutes.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allRoutes.setSize(800, 300);
@@ -113,14 +201,6 @@ public class PassangerForm extends JFrame implements ActionListener {
 	private void allPassages() throws IOException {
 		final Image image = getImage("images/bus3.png");
 		allPassages = new JTable();
-
-		allPassages.setOpaque(false);
-		allPassages.setDefaultRenderer(Object.class,
-				new DefaultTableCellRenderer() {
-					{
-						setOpaque(false);
-					}
-				});
 
 		allPassages.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allPassages.setSize(800, 300);

@@ -1,8 +1,10 @@
 package client.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,7 +28,13 @@ public class AddOrganizationForm extends JFrame {
     
     public AddOrganizationForm() {
     	
-        this.setSize(700,350);
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 800;
+		int sizeHeight = 400;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
         setTitle("Додати організацію");
@@ -36,11 +44,11 @@ public class AddOrganizationForm extends JFrame {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("Номер: "));
+        panel.add(new JLabel(" Номер: "));
         id = new JTextField(10);
         panel.add(id);
         
-        panel.add(new JLabel("Назва: "));
+        panel.add(new JLabel(" Назва: "));
         name = new JTextField(10);
         panel.add(name);
         

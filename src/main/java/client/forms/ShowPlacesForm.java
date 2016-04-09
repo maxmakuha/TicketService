@@ -22,6 +22,7 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 	private int numberOfSeats;
 
 	public ShowPlacesForm(String routeName, int numberOfSeats) {
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int sizeWidth = 800;
 		int sizeHeight = 400;
@@ -69,7 +70,7 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 
 		this.busPanel = new JPanel(l);
 		this.busPanel.setBackground(Color.LIGHT_GRAY);
-		this.busPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		this.busPanel.setBorder(new EmptyBorder(100, 100, 100, 100));
 
 		// Инициализируем генератор
 		Random rnd = new Random(System.currentTimeMillis());
@@ -82,7 +83,7 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 
 		for (int i = 0; i < 20; i++) {
 			JButton bb = new JButton();
-			bb.setSize(30, 30);
+			bb.setSize(70,70);
 			bb.setText("" + (i + 1));
 			if (i == first || i == second || i == third || i == fourth || i == fifth) {
 				bb.addActionListener(new ActionListener() {
@@ -92,7 +93,7 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 						form.setVisible(true);
 					}
 				});
-				bb.setBackground(Color.red);
+				bb.setForeground(Color.red);
 			} else {
 				bb.addActionListener(new ActionListener() {
 					@Override
@@ -101,11 +102,10 @@ public class ShowPlacesForm extends JFrame implements ActionListener {
 						form.setVisible(true);
 					}
 				});
-				bb.setBackground(Color.green);
+				bb.setForeground(Color.black);
 			}
 
 			this.busPanel.add(bb);
 		}
 	}
-
 }

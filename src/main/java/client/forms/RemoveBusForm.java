@@ -1,8 +1,10 @@
 package client.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +24,13 @@ public class RemoveBusForm extends JFrame {
     
     public RemoveBusForm() {
     	
-        this.setSize(200,200);
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 300;
+		int sizeHeight = 200;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
         setTitle("Видалити автобус");

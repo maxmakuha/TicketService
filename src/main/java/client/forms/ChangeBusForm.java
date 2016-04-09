@@ -1,8 +1,10 @@
 package client.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,7 +37,13 @@ public class ChangeBusForm extends JFrame {
     
     public ChangeBusForm(Bus bus) {
     	
-        this.setSize(700,350);
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int sizeWidth = 800;
+		int sizeHeight = 400;
+		int locationX = (screenSize.width - sizeWidth) / 2;
+		int locationY = (screenSize.height - sizeHeight) / 2;
+		this.setSize(sizeWidth, sizeHeight);
+		this.setLocation(locationX, locationY);
         this.setLayout(new GridLayout(2, 2, 2, 2));
 
         setTitle("Редагувати інформацію про автобус");
@@ -45,27 +53,27 @@ public class ChangeBusForm extends JFrame {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         
-        panel.add(new JLabel("Номер: "));
+        panel.add(new JLabel(" Номер: "));
         id = new JTextField(10);
         id.setText(""+bus.getId());
         panel.add(id);
         
-        panel.add(new JLabel("Марка: "));
+        panel.add(new JLabel(" Марка: "));
         mark = new JTextField(10);
         mark.setText(bus.getMark());
         panel.add(mark);
         
-        panel.add(new JLabel("Власник: "));
+        panel.add(new JLabel(" Власник: "));
         owner = new JTextField(10);
         owner.setText(bus.getOwner());
         panel.add(owner);
         
-        panel.add(new JLabel("Клас: "));
+        panel.add(new JLabel(" Клас: "));
         clas = new JTextField(10);
         clas.setText(bus.getClas());
         panel.add(clas);
         
-        panel.add(new JLabel("Кількість місць: "));
+        panel.add(new JLabel(" Кількість місць: "));
         placesAmount = new JTextField(10);
         placesAmount.setText(""+bus.getPlacesAmount());
         panel.add(placesAmount);

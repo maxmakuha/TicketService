@@ -10,19 +10,29 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import server.entities.Bus;
+import server.entities.Organization;
 import server.entities.Passage;
+import server.entities.Passanger;
 import server.entities.Route;
 
 @SuppressWarnings("serial")
@@ -47,6 +57,7 @@ public class AdminForm extends JFrame implements ActionListener {
 	JButton addBus;
 	JButton removeBus;
 	JButton changeBus;
+	JButton classPrice;
 	JButton addRoute;
 	JButton removeRoute;
 	JButton changeRoute;
@@ -54,12 +65,37 @@ public class AdminForm extends JFrame implements ActionListener {
 	JButton removePassage;
 	JButton changePassage;
 	JButton showPlacesButton;
+	
+	JButton userStatistic;
+	JButton orgStatistic;
+	
+	List<Passanger> passangers;
+	List<Organization> organizations;
 
-	public AdminForm() {
+	private JTextField jtfFilterBuses = new JTextField();
+	private TableRowSorter<TableModel> rowSorterBuses;
+	
+	private JTextField jtfFilterRoutes = new JTextField();
+	private TableRowSorter<TableModel> rowSorterRoutes;
+	
+	private JTextField jtfFilterPassages = new JTextField();
+	private TableRowSorter<TableModel> rowSorterPassages;
+	
+	private JTextField jtfFilterPassangers = new JTextField();
+	private TableRowSorter<TableModel> rowSorterPassangers;
+	
+	private JTextField jtfFilterOrganizations = new JTextField();
+	private TableRowSorter<TableModel> rowSorterOrganizations;
+
+	public AdminForm(List<Bus> buses, List<Route> routes, List<Passage> passages, List<Passanger> passangers, List<Organization> organizations) {
 		super("Administrator panel");
+		
 		setBounds(0, 0, 1000, 600);
 
 		JTabbedPane tabby = new JTabbedPane();
+		
+		this.passangers = passangers;
+		this.organizations = organizations;
 
 		panel1 = new JPanel(new BorderLayout());
 		try {
@@ -69,6 +105,40 @@ public class AdminForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		allBuses.setModel(new BusTable(buses));
+		rowSorterBuses = new TableRowSorter<>(allBuses.getModel());
+		allBuses.setRowSorter(rowSorterBuses);
+
+		jtfFilterBuses.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterBuses.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterBuses.setRowFilter(null);
+				} else {
+					rowSorterBuses.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterBuses.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterBuses.setRowFilter(null);
+				} else {
+					rowSorterBuses.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		addBus = new JButton("Додати автобус");
 		addBus.addActionListener(this);
@@ -78,11 +148,20 @@ public class AdminForm extends JFrame implements ActionListener {
 
 		changeBus = new JButton("Редагувати інформацію про автобус");
 		changeBus.addActionListener(this);
+		
+		classPrice = new JButton("Класи автобусів");
+		classPrice.addActionListener(this);
 
-		JPanel newPanel = new JPanel();
-		newPanel.add(addBus);
-		newPanel.add(removeBus);
-		newPanel.add(changeBus);
+		JPanel newPanel = new JPanel(new BorderLayout());
+		newPanel.add(addBus, BorderLayout.WEST);
+		newPanel.add(removeBus, BorderLayout.CENTER);
+		newPanel.add(changeBus, BorderLayout.EAST);
+		newPanel.add(classPrice, BorderLayout.NORTH);
+		
+		JPanel SearchPanel1 = new JPanel(new BorderLayout()); 
+		SearchPanel1.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel1.add(jtfFilterBuses, BorderLayout.CENTER); 
+		newPanel.add(SearchPanel1, BorderLayout.AFTER_LAST_LINE);
 
 		panel1.add(newPanel, BorderLayout.PAGE_END);
 
@@ -92,6 +171,41 @@ public class AdminForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		allRoutes.setModel(new RouteTable(routes));
+		rowSorterRoutes = new TableRowSorter<>(allRoutes.getModel());
+		allRoutes.setRowSorter(rowSorterRoutes);
+
+		jtfFilterRoutes.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterRoutes.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterRoutes.setRowFilter(null);
+				} else {
+					rowSorterRoutes.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterRoutes.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterRoutes.setRowFilter(null);
+				} else {
+					rowSorterRoutes.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		panel3 = new JPanel(new BorderLayout());
 		try {
@@ -99,6 +213,41 @@ public class AdminForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		allPassages.setModel(new PassageTable(passages));
+		rowSorterPassages = new TableRowSorter<>(allPassages.getModel());
+		allPassages.setRowSorter(rowSorterPassages);
+
+		jtfFilterPassages.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterPassages.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterPassages.setRowFilter(null);
+				} else {
+					rowSorterPassages.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterPassages.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterPassages.setRowFilter(null);
+				} else {
+					rowSorterPassages.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		panel4 = new JPanel(new BorderLayout());
 		try {
@@ -106,6 +255,41 @@ public class AdminForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		allPassangers.setModel(new PassangerTable(passangers));
+		rowSorterPassangers = new TableRowSorter<>(allPassangers.getModel());
+		allPassangers.setRowSorter(rowSorterPassangers);
+
+		jtfFilterPassangers.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterPassangers.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterPassangers.setRowFilter(null);
+				} else {
+					rowSorterPassangers.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterPassangers.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterPassangers.setRowFilter(null);
+				} else {
+					rowSorterPassangers.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		panel5 = new JPanel(new BorderLayout());
 		try {
@@ -113,6 +297,41 @@ public class AdminForm extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		allOrganizations.setModel(new OrganizationTable(organizations));
+		rowSorterOrganizations = new TableRowSorter<>(allOrganizations.getModel());
+		allOrganizations.setRowSorter(rowSorterOrganizations);
+
+		jtfFilterOrganizations.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				String text = jtfFilterOrganizations.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterOrganizations.setRowFilter(null);
+				} else {
+					rowSorterOrganizations.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				String text = jtfFilterOrganizations.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorterOrganizations.setRowFilter(null);
+				} else {
+					rowSorterOrganizations.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+
+		});
 
 		addRoute = new JButton("Додати маршрут");
 		addRoute.addActionListener(this);
@@ -134,25 +353,53 @@ public class AdminForm extends JFrame implements ActionListener {
 
 		showPlacesButton = new JButton("Показати місця");
 		showPlacesButton.addActionListener(this);
-
-		JPanel newPanel2 = new JPanel();
-		newPanel2.add(addRoute);
-		newPanel2.add(removeRoute);
-		newPanel2.add(changeRoute);
+		
+		userStatistic = new JButton("Пасажири за останній місяць");
+		userStatistic.addActionListener(this);
+		
+		orgStatistic = new JButton("Організації за останній місяць");
+		orgStatistic.addActionListener(this);
+		
+		JPanel newPanel2 = new JPanel(new BorderLayout());
+		newPanel2.add(addRoute, BorderLayout.WEST);
+		newPanel2.add(removeRoute, BorderLayout.CENTER);
+		newPanel2.add(changeRoute, BorderLayout.EAST);
 		panel2.add(newPanel2, BorderLayout.PAGE_END);
+		
+		JPanel SearchPanel2 = new JPanel(new BorderLayout()); 
+		SearchPanel2.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel2.add(jtfFilterRoutes, BorderLayout.CENTER); 
+		newPanel2.add(SearchPanel2, BorderLayout.AFTER_LAST_LINE);
 
-		JPanel newPanel3 = new JPanel();
-		newPanel3.add(addPassage);
-		newPanel3.add(removePassage);
-		newPanel3.add(changePassage);
-		newPanel3.add(showPlacesButton);
+		JPanel newPanel3 = new JPanel(new BorderLayout());
+		newPanel3.add(addPassage, BorderLayout.WEST);
+		newPanel3.add(removePassage, BorderLayout.CENTER);
+		newPanel3.add(changePassage, BorderLayout.EAST);
+		newPanel3.add(showPlacesButton, BorderLayout.NORTH);
 		panel3.add(newPanel3, BorderLayout.PAGE_END);
+		
+		JPanel SearchPanel3 = new JPanel(new BorderLayout()); 
+		SearchPanel3.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel3.add(jtfFilterPassages, BorderLayout.CENTER); 
+		newPanel3.add(SearchPanel3, BorderLayout.AFTER_LAST_LINE);
 
-		JPanel newPanel4 = new JPanel();
+		JPanel newPanel4 = new JPanel(new BorderLayout());
+		newPanel4.add(userStatistic, BorderLayout.CENTER);
 		panel4.add(newPanel4, BorderLayout.PAGE_END);
 
-		JPanel newPanel5 = new JPanel();
+		JPanel SearchPanel4 = new JPanel(new BorderLayout()); 
+		SearchPanel4.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel4.add(jtfFilterPassangers, BorderLayout.CENTER); 
+		newPanel4.add(SearchPanel4, BorderLayout.AFTER_LAST_LINE);
+		
+		JPanel newPanel5 = new JPanel(new BorderLayout());
+		newPanel5.add(orgStatistic, BorderLayout.CENTER);
 		panel5.add(newPanel5, BorderLayout.PAGE_END);
+		
+		JPanel SearchPanel5 = new JPanel(new BorderLayout()); 
+		SearchPanel5.add(new JLabel("Пошук: "), BorderLayout.WEST); 
+		SearchPanel5.add(jtfFilterOrganizations, BorderLayout.CENTER); 
+		newPanel5.add(SearchPanel5, BorderLayout.AFTER_LAST_LINE);
 
 		tabby.addTab("Автобуси", panel1);
 		tabby.addTab("Маршрути", panel2);
@@ -167,13 +414,6 @@ public class AdminForm extends JFrame implements ActionListener {
 	private void allBuses() throws MalformedURLException, IOException {
 		final Image image = getImage("images/bus1.jpg");
 		allBuses = new JTable();
-
-		allBuses.setOpaque(false);
-		allBuses.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			{
-				setOpaque(false);
-			}
-		});
 
 		allBuses.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allBuses.setSize(800, 300);
@@ -198,13 +438,6 @@ public class AdminForm extends JFrame implements ActionListener {
 	private void allRoutes() throws IOException {
 		final Image image = getImage("images/bus2.jpg");
 		allRoutes = new JTable();
-
-		allRoutes.setOpaque(false);
-		allRoutes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			{
-				setOpaque(false);
-			}
-		});
 
 		allRoutes.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allRoutes.setSize(800, 300);
@@ -231,13 +464,6 @@ public class AdminForm extends JFrame implements ActionListener {
 		final Image image = getImage("images/bus3.png");
 		allPassages = new JTable();
 
-		allPassages.setOpaque(false);
-		allPassages.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			{
-				setOpaque(false);
-			}
-		});
-
 		allPassages.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allPassages.setSize(800, 300);
 
@@ -263,13 +489,6 @@ public class AdminForm extends JFrame implements ActionListener {
 		final Image image = getImage("images/bus4.jpg");
 		allPassangers = new JTable();
 
-		allPassangers.setOpaque(false);
-		allPassangers.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			{
-				setOpaque(false);
-			}
-		});
-
 		allPassangers.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allPassangers.setSize(800, 300);
 
@@ -294,13 +513,6 @@ public class AdminForm extends JFrame implements ActionListener {
 	private void allOrganizations() throws IOException {
 		final Image image = getImage("images/bus5.jpg");
 		allOrganizations = new JTable();
-
-		allRoutes.setOpaque(false);
-		allRoutes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			{
-				setOpaque(false);
-			}
-		});
 
 		allOrganizations.setPreferredScrollableViewportSize(new Dimension(700, 100));
 		allOrganizations.setSize(800, 300);
@@ -342,66 +554,81 @@ public class AdminForm extends JFrame implements ActionListener {
 	public JTable getAllOrganizationsTable() {
 		return this.allOrganizations;
 	}
-	
+
 	public static Image getImage(final String pathAndFileName) {
-	    final URL url = Thread.currentThread().getContextClassLoader().getResource(pathAndFileName);
-	    return Toolkit.getDefaultToolkit().getImage(url);
+		final URL url = Thread.currentThread().getContextClassLoader().getResource(pathAndFileName);
+		return Toolkit.getDefaultToolkit().getImage(url);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addBus) {
 			new AddBusForm();
-		} else if (e.getSource() == addRoute){
+		} else if (e.getSource() == addRoute) {
 			new AddRouteForm();
-		} else if (e.getSource() == addPassage){
+		} else if (e.getSource() == classPrice) {
+			new ClassPriceForm();
+		} else if (e.getSource() == userStatistic) {
+			new UserStatisticForm(passangers);
+		} else if (e.getSource() == orgStatistic) {
+			new OrgStatisticForm(organizations);
+		} else if (e.getSource() == addPassage) {
 			new AddPassageForm();
-		} else if (e.getSource() == removeBus){
+		} else if (e.getSource() == removeBus) {
 			new RemoveBusForm();
-		} else if (e.getSource() == removeRoute){
+		} else if (e.getSource() == removeRoute) {
 			new RemoveRouteForm();
-		} else if (e.getSource() == removePassage){
+		} else if (e.getSource() == removePassage) {
 			new RemovePassageForm();
-		} else if (e.getSource() == changeBus){
+		} else if (e.getSource() == changeBus) {
 			Bus bus;
 			int[] rows = allBuses.getSelectedRows();
-			if (rows.length > 0){
-				bus = new Bus((Integer)allBuses.getValueAt(rows[0], 0),(String)allBuses.getValueAt(rows[0], 1),(String)allBuses.getValueAt(rows[0], 2),(String)allBuses.getValueAt(rows[0], 3),(Integer)allBuses.getValueAt(rows[0], 4));
+			if (rows.length > 0) {
+				bus = new Bus((Integer) allBuses.getValueAt(rows[0], 0), (String) allBuses.getValueAt(rows[0], 1),
+						(String) allBuses.getValueAt(rows[0], 2), (String) allBuses.getValueAt(rows[0], 3),
+						(Integer) allBuses.getValueAt(rows[0], 4));
 				new ChangeBusForm(bus);
-			}else{
+			} else {
 				JOptionPane.showMessageDialog(null, "Потрібно вибрати автобус!", "", JOptionPane.INFORMATION_MESSAGE);
 			}
-		} else if (e.getSource() == changeRoute){
+		} else if (e.getSource() == changeRoute) {
 			Route route;
 			int[] rows = allRoutes.getSelectedRows();
-			if (rows.length > 0){
-				route = new Route((Integer)allRoutes.getValueAt(rows[0], 0),(Integer)allRoutes.getValueAt(rows[0], 1),(String)allRoutes.getValueAt(rows[0], 2),(String)allRoutes.getValueAt(rows[0], 3),(String)allRoutes.getValueAt(rows[0], 4));
+			if (rows.length > 0) {
+				route = new Route((Integer) allRoutes.getValueAt(rows[0], 0),
+						(Integer) allRoutes.getValueAt(rows[0], 1), (String) allRoutes.getValueAt(rows[0], 2),
+						(String) allRoutes.getValueAt(rows[0], 3), (String) allRoutes.getValueAt(rows[0], 4));
 				new ChangeRouteForm(route);
-			}else{
+			} else {
 				JOptionPane.showMessageDialog(null, "Потрібно вибрати маршрут!", "", JOptionPane.INFORMATION_MESSAGE);
 			}
-		} else if (e.getSource() == changePassage){
+		} else if (e.getSource() == changePassage) {
 			Passage passage;
 			int[] rows = allPassages.getSelectedRows();
-			if (rows.length > 0){
-				passage = new Passage((Integer)allPassages.getValueAt(rows[0], 0),(Integer)allPassages.getValueAt(rows[0], 1),(String)allPassages.getValueAt(rows[0], 2),(String)allRoutes.getValueAt(rows[0], 3),(Integer)allPassages.getValueAt(rows[0], 4), (Integer)allPassages.getValueAt(rows[0], 5));
+			if (rows.length > 0) {
+				passage = new Passage((Integer) allPassages.getValueAt(rows[0], 0),
+						(Integer) allPassages.getValueAt(rows[0], 1), (String) allPassages.getValueAt(rows[0], 2),
+						(String) allRoutes.getValueAt(rows[0], 3), (Integer) allPassages.getValueAt(rows[0], 4),
+						(Integer) allPassages.getValueAt(rows[0], 5));
 				new ChangePassageForm(passage);
-			}else{
+			} else {
 				JOptionPane.showMessageDialog(null, "Потрібно вибрати рейс!", "", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (e.getSource() == showPlacesButton) {
 			Route route;
 			int[] rows = allPassages.getSelectedRows();
-			if (rows.length > 0){
-				route = new Route((Integer)allRoutes.getValueAt(rows[0], 0),(Integer)allRoutes.getValueAt(rows[0], 1),(String)allRoutes.getValueAt(rows[0], 2),(String)allRoutes.getValueAt(rows[0], 3),(String)allRoutes.getValueAt(rows[0], 4));
+			if (rows.length > 0) {
+				route = new Route((Integer) allRoutes.getValueAt(rows[0], 0),
+						(Integer) allRoutes.getValueAt(rows[0], 1), (String) allRoutes.getValueAt(rows[0], 2),
+						(String) allRoutes.getValueAt(rows[0], 3), (String) allRoutes.getValueAt(rows[0], 4));
 
 				String routeName = route.getDeparture() + " - " + route.getDestination();
-				//TODO
+				// TODO
 				int numberOfSeats = 20;
 				ShowPlacesForm form = new ShowPlacesForm(routeName, numberOfSeats);
 				form.setVisible(true);
 
-			}else{
+			} else {
 				JOptionPane.showMessageDialog(null, "Потрібно вибрати рейс!", "", JOptionPane.INFORMATION_MESSAGE);
 			}
 
